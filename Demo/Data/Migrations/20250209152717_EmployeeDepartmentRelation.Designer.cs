@@ -4,6 +4,7 @@ using Demo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo.Data.Migrations
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250209152717_EmployeeDepartmentRelation")]
+    partial class EmployeeDepartmentRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,18 +38,12 @@ namespace Demo.Data.Migrations
                         .HasColumnType("date")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar")
                         .HasColumnName("DepartmentName");
 
                     b.HasKey("DeptId");
-
-                    b.HasIndex("ManagerId")
-                        .IsUnique();
 
                     b.ToTable("Departments");
                 });
@@ -92,17 +89,6 @@ namespace Demo.Data.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Demo.Data.Models.Department", b =>
-                {
-                    b.HasOne("Demo.Data.Models.Employee", "Manager")
-                        .WithOne("ManageDepartment")
-                        .HasForeignKey("Demo.Data.Models.Department", "ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
-                });
-
             modelBuilder.Entity("Demo.Data.Models.Employee", b =>
                 {
                     b.HasOne("Demo.Data.Models.Department", "Department")
@@ -115,11 +101,6 @@ namespace Demo.Data.Migrations
             modelBuilder.Entity("Demo.Data.Models.Department", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("Demo.Data.Models.Employee", b =>
-                {
-                    b.Navigation("ManageDepartment");
                 });
 #pragma warning restore 612, 618
         }

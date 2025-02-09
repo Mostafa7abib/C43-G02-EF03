@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Demo.Data.Models
 {
@@ -32,5 +33,17 @@ namespace Demo.Data.Models
         public string PhoneNumber { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        #region Work[One]
+        [ForeignKey(nameof(Department))]
+        public int? DepartmentDeptId { get; set; }
+        [InverseProperty(nameof(Models.Department.Employees))]
+        public Department? Department { get; set; }
+        #endregion
+
+        #region Manage[One]
+        [InverseProperty(nameof(Models.Department.Manager))]
+        public Department? ManageDepartment { get; set; }
+        #endregion
     }
 }
