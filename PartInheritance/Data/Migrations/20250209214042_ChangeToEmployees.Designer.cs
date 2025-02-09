@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PartInheritance.Data;
 
@@ -11,9 +12,11 @@ using PartInheritance.Data;
 namespace PartInheritance.Data.Migrations
 {
     [DbContext(typeof(RouteDbContext))]
-    partial class RouteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250209214042_ChangeToEmployees")]
+    partial class ChangeToEmployees
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

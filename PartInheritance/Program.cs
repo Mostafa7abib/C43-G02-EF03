@@ -7,38 +7,32 @@ namespace PartInheritance
     {
         static void Main(string[] args)
         {
-            using RouteDbContext dbContext = new RouteDbContext();
+           using RouteDbContext dbContext = new RouteDbContext();
             FullTimeEmployee fullTimeEmployee = new FullTimeEmployee()
             {
                 Name = "Mostafa",
-                Address = "Helwan",
-                Salary = 3_000,
                 Age = 22,
+                Address = "Helwan",
                 StartDate = DateTime.Now,
+                Salary = 5_000
             };
             PartTimeEmployee partTimeEmployee = new PartTimeEmployee()
-            { 
+            {
                 Name = "Ahmed",
                 Age = 21,
-                Address = "Alex",
-                CountOfHours = 3,
-                HourRate = 1_00
+                Address = "ALex",
+                CountOfHours = 20,
+                HourRate = 2_00
             };
-            Console.WriteLine(dbContext.Entry(fullTimeEmployee).State);
-            dbContext.fullTimeEmployees.Add(fullTimeEmployee);
-            Console.WriteLine(dbContext.Entry(fullTimeEmployee).State);
-            dbContext.partTimeEmployees.Add(partTimeEmployee);
-            Console.WriteLine(dbContext.Entry(partTimeEmployee).State);
-            dbContext.SaveChanges();
-            var FTE = (from FT in dbContext.fullTimeEmployees
-                       where FT.Id == 1
-                       select FT).FirstOrDefault();
-            Console.WriteLine(FTE?.Name??"NotFound");
-            Console.WriteLine();
-            var PTE = (from PT in dbContext.partTimeEmployees
-                       where PT.Id == 1
-                       select PT).FirstOrDefault();
-            Console.WriteLine(PTE?.Name ?? "NotFound");
+            //dbContext.Employees.Add(fullTimeEmployee);
+            //dbContext.Employees.Add(partTimeEmployee);
+            //dbContext.SaveChanges();
+            var Employee = from employee in dbContext.Employees
+                           select employee;
+            foreach(var e in Employee.OfType<FullTimeEmployee>())
+            {
+                Console.WriteLine(e.Name);
+            }
         }
     }
 }
